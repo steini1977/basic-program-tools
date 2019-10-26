@@ -1,0 +1,36 @@
+1 rem sound fx generator
+5 vu=7:gosub 10:gosub 100
+10 print "sound fx/tone generator"
+12 print "cursor key down for next examlpe."
+13 print "space bar to repeat last."
+14 print "+/r volum kontrol ":print
+15 return
+100 poke 54272+24,vu:rem high volume
+101 get keyb$:if keyb$="" then 101
+110 if keyb$=" " then gosub 200
+120 if keyb$=chr$(17) then gosub 300
+121 if keyb$="r" then vu=7
+122 if keyb$="+" then vu=vu-(1*vu<15)
+130 goto 100
+200 rem play
+201 poke 54272+5,ad:poke 54272+6,rn
+203 poke 54272+0,nl:poke 54272+1,nh
+204 poke 54272+4,wt or 1
+206 for cnt=1 to w:next cnt
+208 poke 54272+4,wt and not 1
+211 return
+300 rem newsfx
+301 ad=int(rnd(1)*256):rn=int(rnd(1)*256)
+302 nl=int(rnd(1)*256):nh=int(rnd(1)*256)
+303 wt=int(rnd(1)*256):w=int(rnd(1)*256)
+304 gosub 200
+306 print "54272+24,";str$(vu)
+308 print "54272+5,";str$(ad)
+310 print "54272+6,";str$(rd)
+314 print "54272+0,";str$(nl)
+315 print "54272+1,";str$(nh)
+316 print "54272+4,";str$((wt and not 1))
+318 print "delay "str$(wt)
+320 print "542720+4,"str$((wt or 1))
+321 gosub 10
+322 return
